@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{vista.ListDetalleServicioTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="DetalleServicioListForm">
+                <p:panel header="#{vista.ListDetalleServicioTitle}">
+                    <p:dataTable id="datalist" value="#{detalleServicioController.items}" var="item"
+                                 selectionMode="single" selection="#{detalleServicioController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.coddetser}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{vista.ListDetalleServicioTitle_predetser}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.predetser}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{vista.ListDetalleServicioTitle_codser}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.codser}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{vista.ListDetalleServicioTitle_codtipser}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.codtipser}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{vista.Create}" actionListener="#{detalleServicioController.prepareCreate}" update=":DetalleServicioCreateForm" oncomplete="PF('DetalleServicioCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{vista.View}" update=":DetalleServicioViewForm" oncomplete="PF('DetalleServicioViewDialog').show()" disabled="#{empty detalleServicioController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{vista.Edit}" update=":DetalleServicioEditForm" oncomplete="PF('DetalleServicioEditDialog').show()" disabled="#{empty detalleServicioController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{vista.Delete}" actionListener="#{detalleServicioController.destroy}" update=":growl,datalist" disabled="#{empty detalleServicioController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

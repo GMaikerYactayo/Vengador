@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleServicioCreateDlg" widgetVar="DetalleServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{vista.CreateDetalleServicioTitle}">
+            <h:form id="DetalleServicioCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{detalleServicioController.selected != null}">
+                        <p:outputLabel value="#{vista.CreateDetalleServicioLabel_predetser}" for="predetser" />
+                        <p:inputText id="predetser" value="#{detalleServicioController.selected.predetser}" title="#{vista.CreateDetalleServicioTitle_predetser}" required="true" requiredMessage="#{vista.CreateDetalleServicioRequiredMessage_predetser}"/>
+                        <p:outputLabel value="#{vista.CreateDetalleServicioLabel_codser}" for="codser" />
+                        <p:selectOneMenu id="codser" value="#{detalleServicioController.selected.codser}" required="true" requiredMessage="#{vista.EditDetalleServicioRequiredMessage_codser}">
+                            <f:selectItems value="#{servicioController.itemsAvailableSelectOne}"
+                                           var="codserItem"
+                                           itemValue="#{codserItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{vista.CreateDetalleServicioLabel_codtipser}" for="codtipser" />
+                        <p:selectOneMenu id="codtipser" value="#{detalleServicioController.selected.codtipser}" required="true" requiredMessage="#{vista.EditDetalleServicioRequiredMessage_codtipser}">
+                            <f:selectItems value="#{tipoServicioController.itemsAvailableSelectOne}"
+                                           var="codtipserItem"
+                                           itemValue="#{codtipserItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleServicioController.create}" value="#{vista.Save}" update="display,:DetalleServicioListForm:datalist,:growl" oncomplete="handleSubmit(args,'DetalleServicioCreateDialog');"/>
+                    <p:commandButton value="#{vista.Cancel}" onclick="DetalleServicioCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
